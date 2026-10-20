@@ -3,6 +3,12 @@
 
 #define POS "\033[%d;%dH%c"
 
+
+void clearScreen()
+{
+  printf("\033[2J");
+}
+
 // big objective is to see why the drawing seems to be moving so
 // slow even moving from one position to another is going super
 // slow. I know its not the sleep because the cursor is moving
@@ -17,13 +23,13 @@ void drawBoard(GameState gs, FILE * logFile)
 {
 
 	// clear screen and move to home position (top left)
-	printf("\033[2J");
+	printf("\033[H");
 
 	// quick null check
 	//if(gs == NULL) {return;} 
 
 	//drawPaddle(gs.leftPaddle.x, gs.leftPaddle.y);
-  drawPaddle(gs.rightPaddle.x, gs.rightPaddle.y, logFile );
+  drawPaddle(gs.leftPaddle.x, gs.leftPaddle.y, logFile );
 
 
    //drawBall(gs.ball.x, gs.ball.y);
@@ -64,21 +70,25 @@ void drawBall(float x, float y)
 }
 
 
-void drawPaddle(float a, float v, FILE * logFile)
+// why is it so slow
+void drawPaddle(int a, int v, FILE * logFile)
 {
 
 	int x = 10, y = 10; 
  
 	//move position to center of where paddle is 
-	printf(POS, x, y, '|'); 
+	printf(POS, a, v, '|'); 
+//  fprintf(logFile, "Printing | @ x: %d, y: %d\n", x, y);
 //	printf("|");
 
 	// above center
-  printf(POS, x + 1, y, '|'); 
+  printf(POS, a + 1, v, '|'); 
+ // fprintf(logFile, "Printing | @ x: %d, y: %d\n", x, y);
 //	printf("|");
 
 	
-  printf(POS, x - 1, y, '|'); 
+  printf(POS, a - 1, v, '|'); 
+  //fprintf(logFile, "Printing | @ x: %d, y: %d\n", x, y);
 //	printf("|");
 }
 

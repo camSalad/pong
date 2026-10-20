@@ -3,11 +3,13 @@
 
 #include "components.h"
 
+void clearScreen();
+
 void drawBorders();
 
 void drawBoard(GameState, FILE*);
 
-void drawPaddle(float, float, FILE*);
+void drawPaddle(int, int, FILE*);
 
 void drawBall(float, float);
 

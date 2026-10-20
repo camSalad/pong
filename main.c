@@ -10,12 +10,12 @@
 
 void SetNonCanonical();
 void SetCanonical();
-void ProcessInput(GameState * gs);
+void ProcessInput(GameState * gs, FILE * lf);
 
 int main(void)
 {
 	
-	FILE * logFile = fopen("log.txt", O_RDWR);
+	FILE * logFile = fopen("log.txt", "w");
 
 	SetNonCanonical();
 	// GameState contains
@@ -34,10 +34,12 @@ int main(void)
 
 	//drawBoard(gs);
 
+  clearScreen();
+
   while(gs.leftScore < MAX_SCORE || gs.rightScore < MAX_SCORE)
 	{
-		// Read Input
-		//ProcessInput(&gs);
+		//Read Input
+		ProcessInput(&gs, logFile);
 		
 		// Update Game State
 		
@@ -45,7 +47,7 @@ int main(void)
 		drawBoard(gs, logFile);
 		
 		// Sleep/Wait for refresh
-		usleep(160);
+		usleep(16000);
 	}
 
 	//cleanup 
@@ -58,11 +60,27 @@ int main(void)
 //Game loop functions
 
 //Process our input and update game state from there
-void ProcessInput(GameState * gs)
+void ProcessInput(GameState * gs, FILE * lf)
 {
 	char input;
 
 	read(STDIN_FILENO, &input, 1);
+
+  switch(input)
+  {
+    case 'j':
+      gs->leftPaddle.x--;
+      break;
+    case 'k':
+      gs->leftPaddle.x++;
+      break;
+
+  }
+
+
+
+  // debugging
+  fprintf(lf, "char read: %c\n", input);
 }
 
 
